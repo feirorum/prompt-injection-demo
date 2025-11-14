@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Injection Demos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+        .demo-card {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 20px;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .demo-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            transform: translateY(-5px);
+        }
+        .demo-card h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .demo-card p {
+            color: #666;
+            line-height: 1.6;
+        }
+        .difficulty {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .easy { background: #d4edda; color: #155724; }
+        .medium { background: #fff3cd; color: #856404; }
+        .hard { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔓 Prompt Injection Demonstrations</h1>
+
+        <div class="warning">
+            <strong>⚠️ Educational Purpose:</strong> These demonstrations show real prompt injection vulnerabilities.
+            Use this knowledge to build better defenses, not to exploit systems.
+        </div>
+
+        <p>Explore different techniques attackers use to manipulate AI systems through carefully crafted inputs.</p>
+
+        <div class="demo-grid">
+            <div class="demo-card" onclick="location.href='01-basic-injection/'">
+                <h3>1. Basic Prompt Injection</h3>
+                <p>Simple text-based injection showing how user input can override system instructions.</p>
+                <span class="difficulty easy">Easy</span>
+            </div>
+
+            <div class="demo-card" onclick="location.href='02-hidden-text/'">
+                <h3>2. Hidden Text Attack</h3>
+                <p>Using CSS to hide malicious instructions that are invisible to users but visible to AI.</p>
+                <span class="difficulty medium">Medium</span>
+            </div>
+
+            <div class="demo-card" onclick="location.href='03-invisible-instructions/'">
+                <h3>3. White-on-White Text</h3>
+                <p>Classic steganography technique using white text on white background.</p>
+                <span class="difficulty easy">Easy</span>
+            </div>
+
+            <div class="demo-card" onclick="location.href='04-markdown-injection/'">
+                <h3>4. Markdown Injection</h3>
+                <p>Exploiting markdown rendering to inject hidden commands and instructions.</p>
+                <span class="difficulty medium">Medium</span>
+            </div>
+
+            <div class="demo-card" onclick="location.href='05-context-confusion/'">
+                <h3>5. Context Confusion</h3>
+                <p>Making the AI think it's in a different context or role than intended.</p>
+                <span class="difficulty hard">Hard</span>
+            </div>
+
+            <div class="demo-card" onclick="location.href='06-delimiter-attack/'">
+                <h3>6. Delimiter Breaking</h3>
+                <p>Attempting to break out of XML/JSON delimiters used in prompts.</p>
+                <span class="difficulty hard">Hard</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
