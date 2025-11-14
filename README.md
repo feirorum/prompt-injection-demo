@@ -9,7 +9,8 @@ This repository contains multiple demonstrations of prompt injection attacks:
 1. **Web-based demos** - Interactive examples showing various injection techniques
 2. **VS Code/Copilot simulation** - Demonstrates how AI coding assistants can be influenced through poisoned documentation
 3. **Research agent poisoning** - Shows how AI agents can be compromised via web content and exfiltrate data
-4. **Presentation materials** - 5-minute presentation guide with speaker notes
+4. **Microsoft 365 Copilot poisoning** - Document attacks without code execution (Word, Excel, PowerPoint, Outlook)
+5. **Presentation materials** - 5-minute presentation guide with speaker notes
 
 ## Repository Structure
 
@@ -27,6 +28,9 @@ This repository contains multiple demonstrations of prompt injection attacks:
 │   └── demo-script.md
 ├── research-agent-demo/   # Research agent poisoning & exfiltration
 │   ├── poisoned-blog-post.html
+│   └── README.md
+├── m365-copilot-demo/     # Microsoft 365 Copilot attacks
+│   ├── poisoned-marketing-article.html
 │   └── README.md
 ├── presentation/          # 5-minute presentation materials
 │   ├── outline.md
@@ -49,6 +53,9 @@ See `vscode-demo/demo-script.md` for step-by-step instructions.
 
 ### Research Agent Demo
 Visit `research-agent-demo/` to see how AI research agents can be poisoned through web content.
+
+### M365 Copilot Demo
+Visit `m365-copilot-demo/` to see document poisoning attacks on Microsoft 365 Copilot (no code execution).
 
 ## Educational Purpose
 

